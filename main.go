@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -19,6 +20,8 @@ func newRouter() *mux.Router {
 }
 
 func main() {
+	listenAddr := ":8000"
 	router := newRouter()
+	fmt.Println(fmt.Sprintf("starting server... going to listen on %v", listenAddr))
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
