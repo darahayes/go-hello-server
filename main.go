@@ -7,14 +7,14 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func HelloEndpoint(w http.ResponseWriter, req *http.Request) {
+func helloEndpoint(w http.ResponseWriter, req *http.Request) {
 	w.WriteHeader(200)
 	w.Write([]byte("Hello World!"))
 }
 
 func newRouter() *mux.Router {
 	router := mux.NewRouter()
-	router.HandleFunc("/hello", HelloEndpoint).Methods("GET")
+	router.HandleFunc("/hello", helloEndpoint).Methods("GET")
 	return router
 }
 
