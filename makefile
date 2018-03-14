@@ -24,8 +24,9 @@ test:
 
 .PHONY: test-cover
 test_cover:
+	@echo "mode: count" > coverage-all.out
 	GOCACHE=off $(foreach pkg,$(PACKAGES),\
-	go test -coverprofile=coverage.out -covermode=count $(addprefix $(PKG)/,$(pkg)) || exit 1;\
+	go test -failfast -tags=integration -coverprofile=coverage.out -covermode=count $(addprefix $(PKG)/,$(pkg)) || exit 1;\
 	tail -n +2 coverage.out >> coverage-all.out;)
 
 .PHONY: build
