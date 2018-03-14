@@ -13,3 +13,4 @@
 vendor
 go-hello-server
 dist
+gin-bin

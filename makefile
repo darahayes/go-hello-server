@@ -1,5 +1,8 @@
 APP_NAME = go-hello-server
+PKG     = github.com/darahayes/$(APP_NAME)
 TOP_SRC_DIRS   = pkg
+PACKAGES     ?= $(shell sh -c "find $(TOP_SRC_DIRS) -name \\*_test.go \
+                  -exec dirname {} \\; | sort | uniq")
 BINARY ?= go-hello-server
 
 # This follows the output format for goreleaser
@@ -19,13 +22,19 @@ test:
 	@echo Running tests:
 	go test -v -race -cover
 
+.PHONY: test-cover
+test_cover:
+	GOCACHE=off $(foreach pkg,$(PACKAGES),\
+	go test -coverprofile=coverage.out -covermode=count $(addprefix $(PKG)/,$(pkg)) || exit 1;\
+	tail -n +2 coverage.out >> coverage-all.out;)
+
 .PHONY: build
 build: setup
-	go build -o $(BINARY) ./main.go
+	go build -o $(BINARY) ./cmd/hello-server/hello-server.go
 
 .PHONY: build_linux
 build_linux: setup
-	env GOOS=linux GOARCH=amd64 go build -o $(BINARY_LINUX_64) ./main.go
+	env GOOS=linux GOARCH=amd64 go build -o $(BINARY_LINUX_64) ./cmd/hello-server/hello-server.go
 
 .PHONY: docker_build
 docker_build: build_linux
