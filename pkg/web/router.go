@@ -3,7 +3,10 @@ package web
 import "github.com/gorilla/mux"
 
 func NewRouter() *mux.Router {
-	return mux.NewRouter().StrictSlash(true)
+	router := mux.NewRouter().StrictSlash(true)
+
+	router.Use(loggerMiddleWare)
+	return router
 }
 
 func SetupHelloRoute(r *mux.Router, handler *helloHandler) {
