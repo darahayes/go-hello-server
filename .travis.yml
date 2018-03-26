@@ -28,6 +28,7 @@ jobs:
       script:
         - go get -u github.com/golang/dep/cmd/dep
         - make setup
+        - make build_linux
         # Commenting this out because It's being performed in CircleCI
         # - curl -sL https://raw.githubusercontent.com/goreleaser/get/master/get | bash 
         - RELEASE_TAG=$TRAVIS_TAG make docker_build_release
