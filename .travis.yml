@@ -1,0 +1,41 @@
+language: go
+
+go:
+  - "1.10"
+
+sudo: required
+
+services:
+  - docker
+
+jobs:
+  include:
+    - stage: test
+      script:
+        - go get github.com/mattn/goveralls
+        - go get -u github.com/golang/dep/cmd/dep
+        - make build
+        - make test_cover
+        - $GOPATH/bin/goveralls -service=travis-ci
+    - stage: docker_push_master
+      script:
+        - go get -u github.com/golang/dep/cmd/dep
+        - make setup
+        - make build_linux
+        - make docker_build_master
+        - make docker_push_master
+    - stage: docker_release
+      script:
+        - go get -u github.com/golang/dep/cmd/dep
+        - make setup
+        # Commenting this out because It's being performed in CircleCI
+        # - curl -sL https://raw.githubusercontent.com/goreleaser/get/master/get | bash 
+        - RELEASE_TAG=$TRAVIS_TAG make docker_build_release
+        - RELEASE_TAG=$TRAVIS_TAG make docker_push_release
+
+stages:
+  - test
+  - name: docker_push_master
+    if: branch = master
+  - name: docker_release
+    if: tag =~ /\d\.\d\.\d/
