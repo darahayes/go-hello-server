@@ -20,7 +20,7 @@ jobs:
   docker_push_master:
     working_directory: /go/src/github.com/darahayes/go-hello-server
     docker:
-      - image: circleci/golang:1.9
+      - image: circleci/golang:1.10
     steps:
       - checkout
       - run: go get -u github.com/golang/dep/cmd/dep
@@ -33,7 +33,7 @@ jobs:
   docker_release:
     working_directory: /go/src/github.com/darahayes/go-hello-server
     docker:
-      - image: circleci/golang:1.9
+      - image: circleci/golang:1.10
     steps:
       - checkout
       - run: go get -u github.com/golang/dep/cmd/dep
