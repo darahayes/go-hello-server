@@ -45,6 +45,19 @@ jobs:
       - store_artifacts:
           path: dist
 
+  oc_deploy:
+    working_directory: /go/src/github.com/darahayes/go-hello-server
+    docker:
+      - image: circleci/golang:1.10
+    steps:
+      - checkout
+      - run: wget https://github.com/openshift/origin/releases/download/v3.7.2/openshift-origin-client-tools-v3.7.2-282e43f-linux-64bit.tar.gz
+      - run: tar -xf openshift-origin-client-tools-v3.7.2-282e43f-linux-64bit.tar.gz --strip-components=1 -C . openshift-origin-client-tools-v3.7.2-282e43f-linux-64bit/oc
+      - run: chmod +x oc
+      - run: ./oc login https://api.starter-us-west-2.openshift.com --token=$OPENSHIFT_TOKEN
+      - run: ./oc project $OPENSHIFT_PROJECT
+      - run: ./oc import-image $OPENSHIFT_IMAGESTREAM
+
 workflows:
   version: 2
   build_and_push:
@@ -63,6 +76,15 @@ workflows:
       - docker_release:
           requires:
             - build
+          filters:
+            tags:
+              only: /\d\.\d\.\d/
+            branches:
+              ignore: /.*/
+      - oc_deploy:
+          requires:
+            - build
+            - docker_release
           filters:
             tags:
               only: /\d\.\d\.\d/
