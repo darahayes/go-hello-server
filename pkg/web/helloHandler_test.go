@@ -52,13 +52,13 @@ func TestHelloEndpointWhenHelloServiceReturnsError(t *testing.T) {
 
 	defer server.Close()
 
-	res, err := http.Get(fmt.Sprintf("%s/hello", server.URL))
+	res, err := http.Get(fmt.Sprintf("%s/", server.URL))
 
 	if err != nil {
-		t.Fatal("error requesting /hello endpoint")
+		t.Fatal("error requesting / endpoint")
 	}
 
 	if res.StatusCode != 500 {
-		t.Fatal("/hello endpoint returned a non 500 response")
+		t.Fatal("/ endpoint returned a non 500 response")
 	}
 }
