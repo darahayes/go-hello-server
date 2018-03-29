@@ -38,7 +38,7 @@ func TestHelloEndpoint(t *testing.T) {
 	res, err := http.Get(fmt.Sprintf("%s/", server.URL))
 
 	if err != nil {
-		t.Fatal("error requesting /hello endpoint")
+		t.Fatal("error requesting / endpoint")
 	}
 
 	if res.StatusCode != 200 {
