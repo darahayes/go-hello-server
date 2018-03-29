@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-var version = "1.0.0" // quick and dirty for demos
+var version = "2.0.0" // quick and dirty for demos
 
 type helloHandler struct {
 	helloService HelloWorldable
