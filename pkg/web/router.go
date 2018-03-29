@@ -10,5 +10,5 @@ func NewRouter() *mux.Router {
 }
 
 func SetupHelloRoute(r *mux.Router, handler *helloHandler) {
-	r.HandleFunc("/hello", handler.HelloEndpoint).Methods("GET")
+	r.HandleFunc("/", handler.HelloEndpoint).Methods("GET")
 }

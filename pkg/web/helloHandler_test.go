@@ -35,7 +35,7 @@ func TestHelloEndpoint(t *testing.T) {
 
 	defer server.Close()
 
-	res, err := http.Get(fmt.Sprintf("%s/hello", server.URL))
+	res, err := http.Get(fmt.Sprintf("%s/", server.URL))
 
 	if err != nil {
 		t.Fatal("error requesting /hello endpoint")
